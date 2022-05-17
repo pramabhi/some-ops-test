@@ -17,7 +17,7 @@
 * In the model API section, various components of gunicorn/flask app deployment were provided.
 * Gunicorn adds multithreading option. The `Main` directory has the flask app.
 * There are functions for prediction, healthcheck, authentication, api user tracking, unit test etc.
-* The `Makefile` has steps for local development using `docker-compose`.
+* The `Makefile` has steps for local development using `docker-compose`. The API outputs could be tested using `Postman`.
 
 
 ### Come up with tests for container or requests failure
