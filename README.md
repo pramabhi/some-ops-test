@@ -15,7 +15,7 @@
 * The steps are in the `cloudbuild.yaml` file which is run using `deploy.sh` containing a sample `gcloud` command.
 * There is also a sample airflow dag in the pipelines directory.
 * In the model API section, various components of gunicorn/flask app deployment were provided.
-* Gunicorn adds multithreading option. The `Main` directory has the flask app.
+* Gunicorn adds multithreading option. The `Main` directory has the flask app `app.py`.
 * There are functions for prediction, healthcheck, authentication, api user tracking, unit test etc.
 * The `Makefile` has steps for local development using `docker-compose`. The API outputs could be tested using `Postman`.
 
@@ -23,16 +23,16 @@
 ### Come up with tests for container or requests failure
 
 * There is a step to test the docker container in the `cloudbuild.yaml` that uses a google provided tool `container-structure-test`.
-* The code to test the docker container is in `text_docker_image.py`.
+* The code to test the docker container is in `text_docker_image.yaml`.
 * The `model_api/test/` folder has unit tests for the flask API.
 
 ### Come up with tests for data quality in this context
 
 * Great Expectations has been integrated in the Kubeflow pipeline to run automated data quality check on the training data before feeding it to the ML model. If the Great Expectations test fails, pipeline won't go to the ML training stage.
 * There is an airflow operator available for Great Expectations.
-* Also, data quality check could be performed using tensorflow-data-validattion in the notebook during experiments.
+* Also, data quality check could be performed using tensorflow-data-validation in the notebook during experiments.
 * Data quality tool `WhyLabs` could be integrated with flask API. I started adding snippets but there are too many boilerplate files in their example repo.
-* `WhyLabs` would identify sudden changes in the incoming data. It has a nice dashboard.
+* `WhyLabs` would identify sudden changes in the incoming data. It has a nice dashboard. Integration with `Swagger` and `WhyLabs` provides excellent observability on data and API.
 * Alternatively, a json with distributions in the training data could be used to compare with the incoming data in the data processing stage inside the flask app.
 
 ### Introduce slack alerts for failure of either of the above
