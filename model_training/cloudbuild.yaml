@@ -1,0 +1,37 @@
+steps:
+# Build the trainer image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/$_TRAINER_IMAGE_NAME:$TAG_NAME', '.']
+  dir: $_PIPELINE_FOLDER/trainer_image
+  id: 'build trainer image'
+
+# Test the image.
+- name: 'gcr.io/gcp-runtimes/container-structure-test'
+  args: ['test', '--image', 'gcr.io/$PROJECT_ID/image', '--config', 'test_docker_image.yaml']
+
+# Push the trainer image
+- name: "gcr.io/cloud-builders/docker"
+  args: ["push", "gcr.io/$PROJECT_ID/$_TRAINER_IMAGE_NAME:$TAG_NAME"]
+  id: 'push trainer image'
+  waitFor: [ 'build trainer image' ]
+
+# Compile the pipeline : Add other arguments and variables here
+- name: 'gcr.io/$PROJECT_ID/kfp_cli'
+  args:
+  - '-c'
+  - |
+  env:
+  - 'TRAINER_IMAGE=gcr.io/$PROJECT_ID/$_TRAINER_IMAGE_NAME:$TAG_NAME'
+  - 'RUNTIME_VERSION=$_RUNTIME_VERSION'
+  - 'PYTHON_VERSION=$_PYTHON_VERSION'
+  dir: $_PIPELINE_FOLDER/pipeline
+  id: 'compile pipeline'
+  waitFor: ['-']
+
+# Upload the pipeline : Add details here e.g. kfp --endpoint $_ENDPOINT pipeline upload
+- name: 'gcr.io/$PROJECT_ID/kfp_cli'
+  args:
+
+# Run the pipeline : Add details here e.g. kfp --endpoint $_ENDPOINT run submit
+- name: 'gcr.io/$PROJECT_ID/kfp_cli'
+  args:

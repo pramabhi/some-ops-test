@@ -1,0 +1,13 @@
+airflow-provider-great-expectations==0.1.0
+apache-beam[gcp]==2.14.0
+cloudml-hypertune==0.1.0.dev6
+fire==0.4.0
+great_expectations==0.12.8
+numpy==1.19.1
+pandas==1.2.2
+pyarrow==0.14.0
+scikit-learn==0.20.4
+tensorflow==1.14.0
+tensorflow-data-validation==0.14.1
+tensorflow-transform==0.14.1
+tfx==0.14.0

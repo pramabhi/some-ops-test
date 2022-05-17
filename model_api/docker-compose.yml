@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+  model-api:
+    image: model-api:latest
+    build:
+      context: ../../
+      dockerfile: ./some_ops_test/model_api/Dockerfile
+    ports:
+      - 5000:5000
+    security_opt:
+      - "seccomp:unconfined"
+    volumes:
+      - ./:/go/src/github.com/some_ops_test/model_api
+    env_file:
+      - .env
